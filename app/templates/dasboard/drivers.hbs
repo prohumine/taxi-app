@@ -1,6 +1,28 @@
-<br>
-<br>
-
-<br>
-<br>
-<h1>Drivers</h1>
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-default">
+	 	<div class="panel-heading">
+	    	<h3 class="panel-title text-center">Driver</h3>
+		</div>
+	  	<div class="panel-body">
+	  		<div class="container-fluid">
+	    	{{#each model as |driver|}}
+	    		<div class="row">
+	    			<h5 class="col-md-8">
+	    				{{#link-to 'dashboard.drivers.view' driver.id}}
+							{{driver.fullName}}
+						{{/link-to}}
+					</h5>
+					{{#link-to 'dashboard.drivers.view.edit' driver.id}}<i class="fa fa-pencil float-right col-md-2"></i>{{/link-to}}
+					<i {{action 'destroy' driver}}class="fa fa-trash float-right right-padding col-md-2"></i>
+	    		</div>
+			{{/each}}
+			</div>
+		</div>
+		<div class="panel-footer text-center">
+	   		{{#link-to 'dashboard.drivers.add'}}
+	   			<i class="fa fa-plus"></i>
+	   			&nbsp;Add Driver
+   			{{/link-to}}
+		</div>
+	</div>
+</div>
