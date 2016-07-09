@@ -1,0 +1,33 @@
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-default">
+	 	<div class="panel-heading">
+	    	<h3 class="panel-title text-center">Vehicle: {{model.make}}</h3>
+		</div>
+	  	<div class="panel-body">
+	    	<h4>All the information of vehicle</h4>
+	    	<div>
+	    		<label>Vehicle Make: </label>
+	    		<span>{{model.make}}</span>
+	    	</div>
+	    	<div>
+	    		<label>Vehicle Model: </label>
+	    		<span>{{model.model}}</span>
+	    	</div>
+	    	<div>
+	    		<label>Vehicle License plate: </label>
+	    		<span>{{model.licensePlate}}</span>
+	    	</div>
+	    	<div>
+	    		<h4 class="text-center">Schedule</h4>
+		    	<ul>
+			    	{{#each vehicleSchedule as |day|}}
+			    		<li>{{day.day}}</li>
+			    	{{/each}}
+		    	</ul>
+	    	</div>
+		</div>
+		<div class="panel-footer text-center">
+	   		{{#link-to 'dashboard.vehicles'}}Go Back{{/link-to}}
+		</div>
+	</div>
+</div>

@@ -1,1 +1,28 @@
-<h1>schedules</h1>
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-default">
+	 	<div class="panel-heading">
+	    	<h3 class="panel-title text-center">Week</h3>
+		</div>
+	  	<div class="panel-body">
+	  		<div class="container-fluid">
+	    	{{#each model as |weekDay|}}
+	    		<div class="row">
+	    			<h5 class="col-md-8">
+	    				{{#link-to 'dashboard.schedules.view' weekDay.id}}
+							{{weekDay.day}}
+						{{/link-to}}
+					</h5>
+					{{#link-to 'dashboard.schedules.view.edit' weekDay.id}}<i class="fa fa-pencil float-right col-md-2"></i>{{/link-to}}
+					<i {{action 'destroy' vehicle}}class="fa fa-trash float-right right-padding col-md-2"></i>
+	    		</div>
+			{{/each}}
+			</div>
+		</div>
+		<div class="panel-footer text-center">
+	   		{{#link-to 'dashboard.schedules.add'}}
+	   			<i class="fa fa-plus"></i>
+	   			&nbsp;Add a day of the week
+   			{{/link-to}}
+		</div>
+	</div>
+</div>

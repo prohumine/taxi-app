@@ -2,12 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Route.extend( {
 
-	model: function(){
-		return this.store.findAll( 'schedule' );
-	},
-
 	renderTemplate: function(){
-		this.render( 'dasboard/schedules', {
+		this.render( 'dasboard/vehicles/add', {
 			outlet: 'shared',
 			into: 'dashboard'
 		} );

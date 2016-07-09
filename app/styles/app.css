@@ -6,3 +6,12 @@
 .right-padding {
 	padding-right: 10px;
 }
+
+.text-gray-light {
+	color: #cccccc;
+}
+
+.no-data {
+	padding: 100px;
+	background-color: #f2f4f5 ;
+}
