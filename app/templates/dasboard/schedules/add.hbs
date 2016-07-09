@@ -1,17 +1,17 @@
 <div class="col-md-5 col-md-offset-3">
 	<form class="form-horizontal">
 		<div class="form-group">
-		    <label for="exampleInputEmail1">Driver</label>
-				{{#x-select value=driver action="driverSelected" class="form-control"}}
-					{{#x-option value=""}}Select a driver{{/x-option}}
-					{{#each drivers as |driver|}}
-	    				{{#x-option value=driver}}{{driver.fullName}}{{/x-option}}
-	  				{{/each}}
-				{{/x-select}}
+		    <label>Driver</label>
+			{{#x-select value=driver_id class="form-control"}}
+				{{#x-option value=""}}Select a driver{{/x-option}}
+				{{#each drivers as |driver|}}
+    				{{#x-option value=driver.id}}{{driver.fullName}}{{/x-option}}
+  				{{/each}}
+			{{/x-select}}
 		</div>
-		{{#if driver}}
+		{{#if driver_id}}
 			<div class="form-group">
-			    <label for="exampleInputEmail1">Day</label>
+			    <label>Day</label>
 			    {{#x-select value=day action="daySelected" class="form-control"}}
 					{{#x-option value=""}}Select a Day{{/x-option}}
 					{{#each days as |day|}}
@@ -22,8 +22,8 @@
 		{{/if}}
 		{{#if day}}
 			<div class="form-group">
-			    <label for="exampleInputPassword1">Vehicle</label>
-			    {{#x-select value=vehicle action="vehicleSelected" class="form-control"}}
+			    <label>Vehicle</label>
+			    {{#x-select value=vehicle_id class="form-control"}}
 					{{#x-option value=""}}Select a vehicle{{/x-option}}
 					{{#each availableVehicles as |car|}}
 	    				{{#x-option value=car.id}}{{car.model}}{{/x-option}}

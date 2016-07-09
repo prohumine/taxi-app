@@ -4,28 +4,28 @@ export default Ember.Controller.extend( {
 
 	days: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
 
-	duplicateDay: function(){
+	duplicateDay: function( driver_id ){
 		var self = this;
-		return new Ember.RSVP.Promise( function( resolve, reject ){
-			self.store.query( 'schedule', { day: self.get( 'day' ), driver_id: self.get( 'driver.id' ) } )
+		return new Ember.RSVP.Promise( function( resolve ){
+			self.store.query( 'schedule', { day: self.get( 'day' ), driver_id: driver_id } )
 				.then( function( dbDays ){
-					resolve( dbDays.get( 'length' ) > 0 )
-				} ) 
+					resolve( dbDays.get( 'length' ) > 0 );
+				} );
 		} );
 	},
 
-	filteredVehicles: function( filtered ){
+	filterVehicles: function( daysWithVehicleId ){
 		var self = this;
-		return new Ember.RSVP.Promise( function( resolve, reject ){
-			var something = [];
+		return new Ember.RSVP.Promise( function( resolve ){
+			var filteredVehicles = [];
 			self.get( 'vehicles' ).forEach( function( car ){
-				filtered.forEach( function( daySelected ){
+				daysWithVehicleId.forEach( function( daySelected ){
 					if( car.get( 'id' ) !== daySelected.get( 'vehicle_id' ) ){
-						something.push( car );
-					};
+						filteredVehicles.push( car );
+					}
 				} ) ;
 			} );
-			resolve( something );
+			resolve( filteredVehicles );
 		} );
 	},
 
@@ -35,50 +35,36 @@ export default Ember.Controller.extend( {
 			this.transitionToRoute( 'dashboard.schedules' );
 		},
 
-		driverSelected: function( driver ){
+		daySelected: function(){
 			var self = this;
-			this.set( 'driver', driver );
-			this.store.findAll( 'vehicle' ).then( function( vehicles ){
-				self.set( 'vehicles', vehicles );
-			} );
-		},
-
-		daySelected: function( day ){
-			var self = this;
-			this.duplicateDay().then( function( bool ){
+			this.duplicateDay( this.get( 'driver_id' ) ).then( function( bool ){
 				if( !bool ){
 					self.store.query( 'schedule', { day: self.get( 'day' ) } ).then( function( dbDays ){
-						var filtered = dbDays.filter( function( item ){
+						var daysWithVehicleId = dbDays.filter( function( item ){
 							return item.get( 'vehicle_id' ) !== null;
 						} );
-						if( filtered.length > 0 ){
-							self.filteredVehicles( filtered ).then( function( array ){
+						if( daysWithVehicleId.length > 0 ){
+							self.filterVehicles( daysWithVehicleId ).then( function( array ){
 								self.set( 'availableVehicles', array );
-								self.set( 'day', day );
 							} );
 						}
 						else{
-							self.set( 'day', day );
-							self.set( 'availableVehicles', self.get( 'vehicles' ) )
+							self.set( 'availableVehicles', self.get( 'vehicles' ) );
 						}
-					} )
+					} );
 				}
 				else{
-					self.set( 'availableVehicles', [] )
-					console.log( "***********" )
+					self.set( 'availableVehicles', [] );
 				}
 			} );
 		},
 
-		vehicleSelected: function( vehicle_id ){
-			console.log( vehicle_id );
-		},
-		
 		add: function(){
 			var self = this;
 			var schedule = this.store.createRecord( 'schedule', {
-				firstName: this.get( 'firstName' ),
-				lastName: this.get( 'lastName' )
+				day: this.get( 'day' ),
+				driver_id: this.get( 'driver_id' ),
+				vehicle_id: this.get( 'vehicle_id' )
 			} );
 
 			schedule.save().then( function(){

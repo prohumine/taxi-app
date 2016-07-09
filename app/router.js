@@ -16,13 +16,13 @@ Router.map( function() {
 		this.route( 'vehicles', function(){
 			this.route( 'view', { path: ':vehicle_id' }, function(){
 				this.route( 'edit', { path: 'edit' } );
-			} )
+			} );
 			this.route( 'add' );
 		} );
 		this.route( 'schedules',function(){
 			this.route( 'view', { path: ':schedule_id' }, function(){
 				this.route( 'edit', { path: 'edit' } );
-			} )
+			} );
 			this.route( 'add' );
 		} );
 	} );

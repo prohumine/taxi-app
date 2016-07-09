@@ -5,7 +5,7 @@ export default Ember.Controller.extend( {
 	actions: {
 		
 		destroy: function( vehicle ){
-			vehicle.destroyRecord()
+			vehicle.destroyRecord();
 		}
 	}
 } );

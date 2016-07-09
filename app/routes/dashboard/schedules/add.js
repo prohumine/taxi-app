@@ -8,9 +8,9 @@ export default Ember.Route.extend( {
 
 	setupController: function( controller, model ){
 		controller.set( 'drivers', model );
-		controller.set( 'driver', null );
-		controller.set( 'vehicle', null );
-		controller.set( 'day', null );
+		this.store.findAll( 'vehicle' ).then( function( vehicles ){
+			controller.set( 'vehicles', vehicles );
+		} );
 	},
 
 	renderTemplate: function(){
