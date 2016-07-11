@@ -1,3 +1,10 @@
+.has-error {
+ background-color: mistyrose;
+}
+
+.has-feedback {
+	margin-top: 10px;
+}
 
 .float-right {
 	float: right;

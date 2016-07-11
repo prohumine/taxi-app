@@ -25,17 +25,15 @@ export default Ember.Controller.extend( EmberValidations, {
 		add: function(){
 			var self = this;
 			this.validate().then( function(){
-				var driver = this.store.createRecord( 'driver', {
-					firstName: this.get( 'firstName' ),
-					lastName: this.get( 'lastName' )
+				var driver = self.store.createRecord( 'driver', {
+					firstName: self.get( 'firstName' ),
+					lastName: self.get( 'lastName' )
 				} );
 
 				driver.save().then( function(){
 					self.get( 'notify' ).success( 'Driver Saved' );
 					self.transitionToRoute( 'dashboard.drivers' );
-				} );
-			} ).catch( function( err ){
-				self.get( 'notify' ).alert( self.get( 'errors.firstName' ).objectAt(0) );
+				} ).catch( function( err ){} );
 			} );
 		}
 	}

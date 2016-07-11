@@ -1,16 +1,19 @@
 <div class="col-md-5 col-md-offset-3">
 	<form class="form-horizontal">
-		<div class="form-group">
+		<div class="form-group has-feedback">
 		    <label for="exampleInputEmail1">Make</label>
 		    {{input type="text" class="form-control" placeholder="Toyota" value=make}}
+		    {{validation-feedback errors=errors.make validated=validated}}
 		</div>
-		<div class="form-group">
+		<div class="form-group has-feedback">
 		    <label for="exampleInputPassword1">Model</label>
 		    {{input type="text" class="form-control" placeholder="Camry" value=Model}}
+		    {{validation-feedback errors=errors.Model validated=validated}}
 		</div>
-		<div class="form-group">
+		<div class="form-group has-feedback">
 		    <label for="exampleInputPassword1">License Plate</label>
 		    {{input type="text" class="form-control" placeholder="EWR 889" value=licensePlate}}
+		    {{validation-feedback errors=errors.licensePlate validated=validated}}
 		</div>
 		<div class="form-group">
 			<button {{action 'goBack'}} class="btn btn-default">Cancel</button>

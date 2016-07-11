@@ -44,6 +44,7 @@ export default Ember.Controller.extend( {
 			this.transitionToRoute( 'dashboard.schedules' );
 			this.set( 'day', null );
 			this.set( 'driver_id', null );
+			this.set( 'errors', [] );
 		},
 
 		daySelected: function(){
@@ -85,6 +86,8 @@ export default Ember.Controller.extend( {
 				self.get( 'notify' ).success( 'Schedule has been added' );
 				self.send( 'refreshRoute' );
 				self.transitionToRoute( 'dashboard.schedules' );
+			} ).catch( function( res ){
+				self.get( 'notify' ).alert( res.errors[ 0 ].message );
 			} );
 		}
 	}
