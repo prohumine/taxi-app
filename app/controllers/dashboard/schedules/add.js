@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend( {
 
+	notify: Ember.inject.service( 'notify' ),
+
 	days: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
 
 	duplicateDay: function( driver_id ){
@@ -16,16 +18,23 @@ export default Ember.Controller.extend( {
 
 	filterVehicles: function( daysWithVehicleId ){
 		var self = this;
+		var indices = [];
+		var copyVehicles = Ember.A();
 		return new Ember.RSVP.Promise( function( resolve ){
-			var filteredVehicles = [];
-			self.get( 'vehicles' ).forEach( function( car ){
+			self.get( 'vehicles' ).forEach( function( v ){
+				copyVehicles.push( v );
+			} );
+			copyVehicles.forEach( function( car, i ){
 				daysWithVehicleId.forEach( function( daySelected ){
-					if( car.get( 'id' ) !== daySelected.get( 'vehicle_id' ) ){
-						filteredVehicles.push( car );
+					if( car.get( 'id' ) === daySelected.get( 'vehicle_id' ) ){
+						indices.push( i );
 					}
 				} ) ;
 			} );
-			resolve( filteredVehicles );
+			for( var j = indices.length -1 ; j > -1; j-- ){
+				copyVehicles.removeAt( indices[ j ] );
+			}
+			resolve( copyVehicles );
 		} );
 	},
 
@@ -33,6 +42,8 @@ export default Ember.Controller.extend( {
 
 		goBack: function(){
 			this.transitionToRoute( 'dashboard.schedules' );
+			this.set( 'day', null );
+			this.set( 'driver_id', null );
 		},
 
 		daySelected: function(){
@@ -44,8 +55,9 @@ export default Ember.Controller.extend( {
 							return item.get( 'vehicle_id' ) !== null;
 						} );
 						if( daysWithVehicleId.length > 0 ){
-							self.filterVehicles( daysWithVehicleId ).then( function( array ){
-								self.set( 'availableVehicles', array );
+							self.filterVehicles( daysWithVehicleId ).then( function( filteredV ){
+
+								self.set( 'availableVehicles', filteredV );
 							} );
 						}
 						else{
@@ -54,7 +66,9 @@ export default Ember.Controller.extend( {
 					} );
 				}
 				else{
+					self.get( 'notify' ).alert( 'Driver is already scheduled for ' + self.get( 'day' ) );
 					self.set( 'availableVehicles', [] );
+					self.set( 'day', null );
 				}
 			} );
 		},
@@ -68,7 +82,9 @@ export default Ember.Controller.extend( {
 			} );
 
 			schedule.save().then( function(){
-				self.transitionToRoute( 'dashboard.drivers' );
+				self.get( 'notify' ).success( 'Schedule has been added' );
+				self.send( 'refreshRoute' );
+				self.transitionToRoute( 'dashboard.schedules' );
 			} );
 		}
 	}

@@ -9,6 +9,6 @@ export default Ember.Route.extend( {
 		this.render( 'dasboard/vehicles', {
 			outlet: 'shared',
 			into: 'dashboard'
-		} ) 
+		} );
 	}
 } );
